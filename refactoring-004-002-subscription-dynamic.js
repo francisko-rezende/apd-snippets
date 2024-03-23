@@ -1,3 +1,4 @@
+
 const mySubscriptions = SubscriptionsCollection.find({ userId });
 
 const SubscriptionStatuses = JSON.parse(
