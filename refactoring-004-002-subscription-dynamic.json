@@ -1,0 +1,6 @@
+{
+    "ACTIVE": { "value": "ACTIVE", "isValid": true },
+    "PAID": { "value": "ACTIVE", "isValid": true },
+    "PENDING": { "value": "PENDING" },
+    "CANCELED": { "value": "CANCELED" }
+}
