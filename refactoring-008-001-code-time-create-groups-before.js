@@ -1,33 +1,30 @@
-async function createGroups(membersIdVar, membershipType) {
-    const membersObject = Members.findOne({ _id: membersIdVar });
+async function createGroups(membersIdVar, membershipTypeOrNull) {
+  const membersObject = Members.findOne({ _id: membersIdVar });
 
-    if (!membershipType) {
-        membershipType = _findMembershipType(membersIdVar);
-    }
+  const membershipType = _findOrGetMembershipType({
+    membersId: membersIdVar,
+    membershipType: membershipTypeOrNull,
+  });
 
-    const membersArray = Object.entries(membersObject).map(
-        ([_, member]) => member
-    );
-
-    const memberGroup = {
-        [membershipType]: membersArray,
-    };
-
-    return memberGroup;
+  return {};
 }
 
-function _findMembershipType(membersIdVar) {
-    const membershipsObject = Memberships.findOne({
-        members_id: membersIdVar,
-        groups_id: { $ne: null },
-    });
+function _findOrGetMembershipType({ membersId, membershipType }) {
+  if (membershipType) {
+    return membershipType;
+  }
 
-    return membershipsObject?.membershipType || null;
+  const membershipsObject = Memberships.findOne({
+    members_id: membersId,
+    groups_id: { $ne: null },
+  });
+
+  return membershipsObject?.membershipType || null;
 }
 
 const main = () => {
-    createGroups(["123", "456"]);
-    createGroups(["123", "456"], "ADMIN");
+  createGroups(["123", "456"]);
+  createGroups(["123", "456"], "ADMIN");
 };
 
 main();
