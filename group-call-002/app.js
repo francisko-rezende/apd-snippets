@@ -70,18 +70,42 @@ const users = [
 // Event name
 // Event date (period)
 
+export function filterByName(eventName, event) {
+    return !eventName || event.eventName.includes(eventName);
+}
+
+export function filterByDate(eventDate, event) {
+    return !eventDate || event.eventDate === eventDate;
+}
+
+export function filterByQuantity(qty, event) {
+    return !qty || event.ticketsQty >= qty;
+}
+
+export function filterByUpcoming(event) {
+    return event.eventStatus === "upcoming";
+}
+
+export function filterByVIP(user, event) {
+    return user?.isVIP || !event.onlyVIPUsers;
+}
+
+export function filterAvailableEvents({eventName, event, eventDate, qty, user}) {
+    return (
+        filterByName(eventName, event) &&
+        filterByDate(eventDate, event) &&
+        filterByQuantity(qty, event) &&
+        filterByUpcoming(event) &&
+        filterByVIP(user, event)
+    );
+}
+
 app.get('/tickets-available', (req, res) => {
     const { userId, qty, eventName, eventDate } = req.query
     const user = users.find((user) => user.userId === userId)
 
     return res.json(events.filter((event)=> {
-        return (
-          (!eventName || event.eventName.includes(eventName)) &&
-          (!eventDate || event.eventDate === eventDate) &&
-          (!qty || event.ticketsQty >= qty) &&
-          event.eventStatus === "upcoming" &&
-          (user.isVIP || !event.onlyVIPUsers)
-        )
+        return filterAvailableEvents({eventName, event, eventDate, qty, user})
     }))
 })
 
