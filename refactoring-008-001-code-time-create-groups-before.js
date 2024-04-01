@@ -1,6 +1,6 @@
 async function createGroups(membersIdVar, membershipType) {
 
-    const membersObject = Members.findOne({_id: membersIdVar});
+    const membersObject = Members.findOne({ _id: membersIdVar });
 
     if (!membershipType) {
         membershipType = _findMembershipType(membersIdVar);
@@ -13,7 +13,7 @@ async function createGroups(membersIdVar, membershipType) {
 function _findMembershipType(membersIdVar) {
     const membershipsObject = Memberships.findOne({
         members_id: membersIdVar,
-        groups_id: {$ne: null},
+        groups_id: { $ne: null },
     });
     return membershipsObject && membershipsObject.membership_type
         ? membershipsObject.membership_type
@@ -21,8 +21,8 @@ function _findMembershipType(membersIdVar) {
 }
 
 const main = () => {
-    createGroups([ '123', '456'])
-    createGroups([ '123', '456'], 'ADMIN')
+    createGroups(['123', '456'])
+    createGroups(['123', '456'], 'ADMIN')
 }
 
 main();
