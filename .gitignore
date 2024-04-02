@@ -1,3 +1,4 @@
 .idea/vcs.xml
 .idea/codeStyles
+.idea/prettier.xml
 node_modules
