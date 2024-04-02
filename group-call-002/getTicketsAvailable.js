@@ -10,7 +10,7 @@ function filterByDate(eventDate, event) {
 }
 
 function filterByQuantity(quantity, event) {
-  return !quantity || event.ticketsQty >= quantity;
+  return !quantity || event.quantity >= quantity;
 }
 
 function filterByUpcoming(event) {
@@ -37,7 +37,7 @@ function filterAvailableEvents({
   );
 }
 
-export function getTicketsAvailable(userId, eventName, eventDate, quantity) {
+export function getTicketsAvailable({userId, eventName, eventDate, quantity}) {
   const user = UsersCollection.find().find((user) => user.userId === userId);
 
   return EventsCollection.find().filter((event) => {
